@@ -47,12 +47,12 @@ var map = L.map("map-canvas", {
 
 // 2. aerial photo * not working at this moment (see Assignment)
 //    - can be switched on/off by toggle thru L.control.layers (see below in this script)
-var wms_aerial_url = "https://geodata1.nationaalgeoregister.nl/luchtfoto/wms?";
+var wms_aerial_url = "https://service.pdok.nl/hwh/luchtfotorgb/wms/v1_0?";
 var basemap_aerial = new L.tileLayer.wms(wms_aerial_url, {
-  layers: ["luchtfoto_png"],
+  layers: ["Actueel_ortho25"],
   styles: "",
-  format: "image/png",
-  transparent: true,
+  format: "image/jpeg",
+  transparent: false,
   pointerCursor: true,
 });
 basemap_aerial.getAttribution = function () {
@@ -71,8 +71,41 @@ var sound = new L.tileLayer.wms(wms_sound_url, {
   pointerCursor: true,
 });
 
+// 4. the parcels
+var wms_parcels_url = "http://localhost:8080/geoserver/faried/wms?";
+var parcels = new L.tileLayer.wms(wms_parcels_url, {
+  layers: ["faried:parcels"],
+  styles: "",
+  format: "image/png",
+  transparent: true,
+  pointerCursor: true,
+});
+
+// 5. top10layers
+var wms_top10_url = "http://localhost:8080/geoserver/faried/wms?";
+var top10 = new L.tileLayer.wms(wms_top10_url, {
+  layers: ["faried:GEBOUW_VLAK", "faried:WATERDEEL_VLAK"],
+  styles: ["faried:gebouw_vlak", "faried:waterdeel_vlak"],
+  format: "image/png",
+  transparent: true,
+  pointerCursor: true,
+});
+
+// 6. PDOK layer
+var wms_pdok_url = "https://service.pdok.nl/hwh/luchtfotocir/wms/v1_0?";
+var pdok_infrared = new L.tileLayer.wms(wms_pdok_url, {
+  layers: ["Actueel_ortho25IR"],
+  styles: "",
+  format: "image/jpeg",
+  transparent: false,
+  pointerCursor: true,
+});
+
 var overlays = {
   "Road noise [WMS]": sound,
+  "Parcels [WMS]": parcels,
+  "Top10NL [WMS]": top10,
+  "Infrared aerial PDOK [WMS]": pdok_infrared,
 };
 
 var baseLayers = {

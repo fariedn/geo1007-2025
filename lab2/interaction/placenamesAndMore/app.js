@@ -105,6 +105,12 @@ var allFunctions = function () {
     request.open("GET", requestUrl, true);
     request.onload = function () {
       if (this.status >= 200 && this.status < 400) {
+
+        var oldTextareas = document.querySelectorAll(".forDebug2 textarea");
+        oldTextareas.forEach(function(t) { t.remove(); });
+        var oldRows = document.querySelectorAll("#xmlDataAsTable tr");
+        oldRows.forEach(function(r) { r.remove(); });
+
         var textarea = document.createElement("textarea");
         textarea.rows = "20";
         textarea.cols = "60";
@@ -155,12 +161,16 @@ var allFunctions = function () {
   };
 
   var getAndDisplayMap = function (wms_request) {
+    var oldImgs = document.querySelectorAll(".mapDiv img");
+    oldImgs.forEach(function(img) {
+        img.remove();
+    });
     var img = document.createElement("img");
     img.style.display = "none";
     img.src = wms_request;
-    document.querySelector("main .mapDiv").append(img);
+    document.querySelector(".mapDiv").append(img);
     img.style.display = "block";
-  };
+};
 
   var constructWMSrequest = function (
     baseUrl,
@@ -299,4 +309,3 @@ var allFunctions = function () {
   });
 }
 document.addEventListener("DOMContentLoaded", allFunctions);
-
